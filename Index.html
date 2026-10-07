@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Password Generator — Simple & Professional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* -------------------------------------------------------------
+       SOLID COLOR THEME TOKENS (No gradients, crisp & professional)
+    ------------------------------------------------------------- */
+    :root {
+      --bg-page: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-input: #f8fafc;
+      --bg-input-hover: #f1f5f9;
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --border-focus: #2563eb;
+
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --text-inverse: #ffffff;
+
+      /* Solid Brand & State Colors */
+      --color-primary: #2563eb;
+      --color-primary-hover: #1d4ed8;
+      --color-primary-active: #1e40af;
+      --color-primary-light: #eff6ff;
+
+      --color-success: #16a34a;
+      --color-success-hover: #15803d;
+      --color-success-light: #f0fdf4;
+
+      --color-warning: #d97706;
+      --color-warning-light: #fffbeb;
+
+      --color-danger: #dc2626;
+      --color-danger-hover: #b91c1c;
+      --color-danger-light: #fef2f2;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-full: 9999px;
+
+      --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+      --shadow-toast: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] {
+      --bg-page: #0f172a;
+      --bg-card: #1e293b;
+      --bg-input: #0f172a;
+      --bg-input-hover: #172554;
+      --border-subtle: #334155;
+      --border-strong: #475569;
+      --border-focus: #3b82f6;
+
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --text-inverse: #0f172a;
+
+      --color-primary: #3b82f6;
+      --color-primary-hover: #2563eb;
+      --color-primary-active: #1d4ed8;
+      --color-primary-light: #1e3a8a;
+
+      --color-success: #22c55e;
+      --color-success-hover: #16a34a;
+      --color-success-light: #14532d;
+
+      --color-warning: #f59e0b;
+      --color-warning-light: #78350f;
+
+      --color-danger: #ef4444;
+      --color-danger-hover: #dc2626;
+      --color-danger-light: #7f1d1d;
+
+      --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.35);
+      --shadow-toast: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    /* -------------------------------------------------------------
+       BASE & RESET
+    ------------------------------------------------------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      background-color: var(--bg-page);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* -------------------------------------------------------------
+       MAIN CONTAINER CARD
+    ------------------------------------------------------------- */
+    .app-card {
+      width: 100%;
+      max-width: 520px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px 26px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    /* -------------------------------------------------------------
+       HEADER
+    ------------------------------------------------------------- */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 16px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-md);
+      background-color: var(--color-primary);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .brand-info h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .brand-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-card);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .icon-btn:hover {
+      background-color: var(--bg-input);
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+    }
+
+    .icon-btn:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+
+    /* -------------------------------------------------------------
+       PASSWORD DISPLAY WELL
+    ------------------------------------------------------------- */
+    .display-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .display-box {
+      background-color: var(--bg-input);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+      position: relative;
+    }
+
+    .display-box:focus-within {
+      border-color: var(--border-focus);
+      background-color: var(--bg-card);
+    }
+
+    .password-output {
+      flex: 1;
+      font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+      font-size: 1.18rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.04em;
+      word-break: break-all;
+      user-select: all;
+      -webkit-user-select: all;
+      min-height: 28px;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-output.empty {
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 400;
+      user-select: none;
+    }
+
+    .display-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .tool-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-size: 0.95rem;
+    }
+
+    .tool-btn:hover:not(:disabled) {
+      background-color: var(--border-subtle);
+      color: var(--text-primary);
+    }
+
+    .tool-btn:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 1px;
+    }
+
+    .tool-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .tool-btn.btn-clear-inline {
+      color: var(--color-danger);
+    }
+
+    .tool-btn.btn-clear-inline:hover:not(:disabled) {
+      background-color: var(--color-danger-light);
+      color: var(--color-danger);
+    }
+
+    /* -------------------------------------------------------------
+       STRENGTH METER (Clean Solid Segments)
+    ------------------------------------------------------------- */
+    .strength-meter-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-top: 2px;
+    }
+
+    .strength-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+    }
+
+    .strength-title {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .strength-status {
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .strength-segments {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      height: 6px;
+    }
+
+    .segment {
+      height: 100%;
+      border-radius: var(--radius-full);
+      background-color: var(--border-subtle);
+      transition: background-color 0.2s ease;
+    }
+
+    /* Solid segment fill colors */
+    .segment.fill-weak {
+      background-color: var(--color-danger);
+    }
+
+    .segment.fill-fair {
+      background-color: var(--color-warning);
+    }
+
+    .segment.fill-good {
+      background-color: var(--color-primary);
+    }
+
+    .segment.fill-strong {
+      background-color: var(--color-success);
+    }
+
+    .entropy-caption {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    /* -------------------------------------------------------------
+       LENGTH SLIDER & INPUT (Max 16)
+    ------------------------------------------------------------- */
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .control-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .control-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .length-badge-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .length-number-input {
+      width: 52px;
+      height: 32px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-input);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-align: center;
+      transition: border-color 0.15s ease;
+    }
+
+    .length-number-input:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      background-color: var(--bg-card);
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .range-slider {
+      flex: 1;
+      height: 6px;
+      border-radius: var(--radius-full);
+      background: var(--border-subtle);
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: var(--color-primary);
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+      transition: transform 0.1s ease, background-color 0.15s ease;
+    }
+
+    .range-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background-color: var(--color-primary-hover);
+    }
+
+    .range-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: var(--color-primary);
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+    }
+
+    .presets-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .preset-chip {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-input);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .preset-chip:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+
+    .preset-chip.active {
+      background-color: var(--color-primary);
+      color: #ffffff;
+      border-color: var(--color-primary);
+    }
+
+    /* -------------------------------------------------------------
+       OPTIONS GRID (Clean Solid Checkboxes)
+    ------------------------------------------------------------- */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .option-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .option-checkbox-label:hover {
+      background-color: var(--bg-input-hover);
+      border-color: var(--border-strong);
+    }
+
+    .option-checkbox-label.checked {
+      background-color: var(--color-primary-light);
+      border-color: var(--color-primary);
+    }
+
+    .custom-checkbox {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1.5px solid var(--border-strong);
+      background-color: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+
+    .option-checkbox-label input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .option-checkbox-label input[type="checkbox"]:checked + .custom-checkbox {
+      background-color: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #ffffff;
+    }
+
+    .custom-checkbox svg {
+      display: none;
+      width: 12px;
+      height: 12px;
+      stroke: #ffffff;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .option-checkbox-label input[type="checkbox"]:checked + .custom-checkbox svg {
+      display: block;
+    }
+
+    .option-text-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option-title {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .option-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* -------------------------------------------------------------
+       PRIMARY ACTION BUTTONS (Generate, Copy, Clear)
+    ------------------------------------------------------------- */
+    .actions-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.2fr 1fr;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .btn {
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+
+    /* Solid Primary: Generate */
+    .btn-primary {
+      background-color: var(--color-primary);
+      color: #ffffff;
+      border-color: var(--color-primary);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-primary-hover);
+      border-color: var(--color-primary-hover);
+    }
+
+    .btn-primary:active {
+      background-color: var(--color-primary-active);
+    }
+
+    /* Solid Secondary: Copy */
+    .btn-secondary {
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background-color: var(--bg-input);
+      border-color: var(--text-secondary);
+    }
+
+    .btn-secondary.copied {
+      background-color: var(--color-success);
+      color: #ffffff;
+      border-color: var(--color-success);
+    }
+
+    .btn-secondary:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* Solid Danger / Clear: Dedicated Clear Button */
+    .btn-clear {
+      background-color: var(--bg-card);
+      color: var(--color-danger);
+      border-color: var(--border-strong);
+    }
+
+    .btn-clear:hover:not(:disabled) {
+      background-color: var(--color-danger-light);
+      border-color: var(--color-danger);
+    }
+
+    .btn-clear:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* -------------------------------------------------------------
+       TOAST NOTIFICATION (Solid, Crisp)
+    ------------------------------------------------------------- */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translate(-50%, 40px);
+      background-color: var(--text-primary);
+      color: var(--bg-card);
+      padding: 10px 18px;
+      border-radius: var(--radius-full);
+      font-size: 0.86rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--shadow-toast);
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .toast-icon {
+      display: inline-flex;
+    }
+
+    .toast.warn {
+      background-color: var(--color-warning);
+      color: #ffffff;
+    }
+
+    .toast.danger {
+      background-color: var(--color-danger);
+      color: #ffffff;
+    }
+
+    .toast.success {
+      background-color: var(--color-success);
+      color: #ffffff;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .app-card {
+        padding: 20px 18px;
+        gap: 18px;
+      }
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+      .actions-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="app-card" role="main">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-group">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h1>PassForge</h1>
+          <p>Secure password generator</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
+          <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Password Output Area -->
+    <section class="display-section" aria-label="Generated password section">
+      <div class="display-box" id="displayBox">
+        <div class="password-output" id="passwordOutput" role="status" aria-live="polite">
+          <!-- Populated by JS -->
+        </div>
+        <div class="display-tools">
+          <button class="tool-btn btn-clear-inline" id="clearInlineBtn" title="Clear password" aria-label="Clear password">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+          <button class="tool-btn" id="regenInlineBtn" title="Regenerate password" aria-label="Regenerate password">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 4v6h-6"/>
+              <path d="M1 20v-6h6"/>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+          </button>
+          <button class="tool-btn" id="copyInlineBtn" title="Copy password" aria-label="Copy password">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Strength Meter -->
+      <div class="strength-meter-box">
+        <div class="strength-header">
+          <span class="strength-title">Security Strength</span>
+          <span class="strength-status" id="strengthStatus">Strong</span>
+        </div>
+        <div class="strength-segments" id="strengthSegments" aria-hidden="true">
+          <div class="segment" id="seg1"></div>
+          <div class="segment" id="seg2"></div>
+          <div class="segment" id="seg3"></div>
+          <div class="segment" id="seg4"></div>
+        </div>
+        <div class="entropy-caption" id="entropyCaption">
+          68 bits entropy • ~3,000 years to crack
+        </div>
+      </div>
+    </section>
+
+    <!-- Length Configuration (Max 16) -->
+    <section class="control-group" aria-labelledby="lengthHeading">
+      <div class="control-label-row">
+        <span class="control-title" id="lengthHeading">Password Length</span>
+        <div class="length-badge-wrap">
+          <input type="number" id="lengthInput" class="length-number-input" min="4" max="16" value="16" aria-label="Password length number input" />
+          <span style="font-size: 0.8rem; color: var(--text-muted);">chars</span>
+        </div>
+      </div>
+      <div class="slider-row">
+        <input type="range" id="lengthSlider" class="range-slider" min="4" max="16" value="16" aria-label="Password length slider" />
+      </div>
+      <div class="presets-row">
+        <span style="font-size: 0.74rem; color: var(--text-muted); margin-right: 4px;">Quick Presets:</span>
+        <button type="button" class="preset-chip" data-len="6">6</button>
+        <button type="button" class="preset-chip" data-len="8">8</button>
+        <button type="button" class="preset-chip" data-len="10">10</button>
+        <button type="button" class="preset-chip" data-len="12">12</button>
+        <button type="button" class="preset-chip" data-len="14">14</button>
+        <button type="button" class="preset-chip active" data-len="16">16</button>
+      </div>
+    </section>
+
+    <!-- Character Types Options -->
+    <section class="control-group" aria-labelledby="charHeading">
+      <div class="control-label-row">
+        <span class="control-title" id="charHeading">Character Sets</span>
+        <span style="font-size: 0.75rem; color: var(--text-muted);">Select at least one</span>
+      </div>
+      <div class="options-grid">
+        <!-- Uppercase -->
+        <label class="option-checkbox-label checked" id="labelUpper">
+          <input type="checkbox" id="chkUpper" checked />
+          <div class="custom-checkbox" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="option-text-group">
+            <span class="option-title">Uppercase</span>
+            <span class="option-sub">A &ndash; Z</span>
+          </div>
+        </label>
+
+        <!-- Lowercase -->
+        <label class="option-checkbox-label checked" id="labelLower">
+          <input type="checkbox" id="chkLower" checked />
+          <div class="custom-checkbox" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="option-text-group">
+            <span class="option-title">Lowercase</span>
+            <span class="option-sub">a &ndash; z</span>
+          </div>
+        </label>
+
+        <!-- Numbers -->
+        <label class="option-checkbox-label checked" id="labelNum">
+          <input type="checkbox" id="chkNum" checked />
+          <div class="custom-checkbox" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="option-text-group">
+            <span class="option-title">Numbers</span>
+            <span class="option-sub">0 &ndash; 9</span>
+          </div>
+        </label>
+
+        <!-- Symbols -->
+        <label class="option-checkbox-label checked" id="labelSym">
+          <input type="checkbox" id="chkSym" checked />
+          <div class="custom-checkbox" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="option-text-group">
+            <span class="option-title">Symbols</span>
+            <span class="option-sub">! @ # $ % ^ &amp; *</span>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <!-- Action Buttons Row -->
+    <section class="actions-grid" aria-label="Password generation controls">
+      <button class="btn btn-primary" id="btnGenerate" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 4v6h-6"/>
+          <path d="M1 20v-6h6"/>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+        </svg>
+        <span>Generate</span>
+      </button>
+
+      <button class="btn btn-secondary" id="btnCopy" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        <span id="copyBtnText">Copy</span>
+      </button>
+
+      <!-- Clear Button -->
+      <button class="btn btn-clear" id="btnClear" type="button" title="Clear generated password">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+        </svg>
+        <span>Clear</span>
+      </button>
+    </section>
+  </main>
+
+  <!-- Solid Toast Notification -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="toast-icon" id="toastIcon"></span>
+    <span id="toastMsg">Password copied!</span>
+  </div>
+
+  <script>
+  (() => {
+    "use strict";
+
+    // -------------------------------------------------------------
+    // Character Definitions
+    // -------------------------------------------------------------
+    const CHAR_SETS = {
+      upper: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+      lower: "abcdefghijklmnopqrstuvwxyz",
+      num:   "0123456789",
+      sym:   "!@#$%^&*()-_=+[]{};:,.?/"
+    };
+
+    // -------------------------------------------------------------
+    // DOM References
+    // -------------------------------------------------------------
+    const $ = (id) => document.getElementById(id);
+    const passwordOutput = $("passwordOutput");
+    const displayBox = $("displayBox");
+    const lengthSlider = $("lengthSlider");
+    const lengthInput = $("lengthInput");
+    const presetChips = document.querySelectorAll(".preset-chip");
+
+    const chkUpper = $("chkUpper");
+    const chkLower = $("chkLower");
+    const chkNum = $("chkNum");
+    const chkSym = $("chkSym");
+
+    const labelUpper = $("labelUpper");
+    const labelLower = $("labelLower");
+    const labelNum = $("labelNum");
+    const labelSym = $("labelSym");
+
+    const btnGenerate = $("btnGenerate");
+    const btnCopy = $("btnCopy");
+    const btnClear = $("btnClear");
+    const copyBtnText = $("copyBtnText");
+
+    const clearInlineBtn = $("clearInlineBtn");
+    const regenInlineBtn = $("regenInlineBtn");
+    const copyInlineBtn = $("copyInlineBtn");
+
+    const strengthStatus = $("strengthStatus");
+    const entropyCaption = $("entropyCaption");
+    const segments = [$("seg1"), $("seg2"), $("seg3"), $("seg4")];
+
+    const themeToggle = $("themeToggle");
+    const toastEl = $("toast");
+    const toastMsg = $("toastMsg");
+    const toastIcon = $("toastIcon");
+
+    let currentPassword = "";
+
+    // -------------------------------------------------------------
+    // Random Helper
+    // -------------------------------------------------------------
+    function getRandomInt(max) {
+      if (max <= 0) return 0;
+      if (window.crypto && window.crypto.getRandomValues) {
+        const limit = Math.floor(4294967296 / max) * max;
+        const buf = new Uint32Array(1);
+        let val;
+        do {
+          window.crypto.getRandomValues(buf);
+          val = buf[0];
+        } while (val >= limit);
+        return val % max;
+      }
+      return Math.floor(Math.random() * max);
+    }
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = getRandomInt(i + 1);
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // -------------------------------------------------------------
+    // Password Generation
+    // -------------------------------------------------------------
+    function generatePassword() {
+      const activeKeys = [];
+      if (chkUpper.checked) activeKeys.push("upper");
+      if (chkLower.checked) activeKeys.push("lower");
+      if (chkNum.checked) activeKeys.push("num");
+      if (chkSym.checked) activeKeys.push("sym");
+
+      if (activeKeys.length === 0) {
+        currentPassword = "";
+        renderEmptyState("Select at least one character type");
+        showToast("Please select at least one character type", "warn");
+        return;
+      }
+
+      const length = parseInt(lengthSlider.value, 10);
+      const guaranteedChars = [];
+      let fullPool = "";
+
+      activeKeys.forEach((key) => {
+        const setChars = CHAR_SETS[key];
+        if (setChars && setChars.length > 0) {
+          guaranteedChars.push(setChars[getRandomInt(setChars.length)]);
+          fullPool += setChars;
+        }
+      });
+
+      if (!fullPool.length) {
+        currentPassword = "";
+        renderEmptyState("Selected pool is empty");
+        return;
+      }
+
+      const passwordChars = [...guaranteedChars];
+      while (passwordChars.length < length) {
+        passwordChars.push(fullPool[getRandomInt(fullPool.length)]);
+      }
+
+      currentPassword = shuffleArray(passwordChars).slice(0, length).join("");
+      renderPassword(currentPassword);
+    }
+
+    // -------------------------------------------------------------
+    // Clear Password
+    // -------------------------------------------------------------
+    function clearPassword() {
+      if (!currentPassword) {
+        showToast("No password to clear", "warn");
+        return;
+      }
+      currentPassword = "";
+      renderEmptyState("Password cleared — click Generate");
+      showToast("Password cleared", "danger");
+    }
+
+    // -------------------------------------------------------------
+    // Render States
+    // -------------------------------------------------------------
+    function renderPassword(pw) {
+      passwordOutput.textContent = pw;
+      passwordOutput.classList.remove("empty");
+
+      btnCopy.disabled = false;
+      btnClear.disabled = false;
+      clearInlineBtn.disabled = false;
+      copyInlineBtn.disabled = false;
+
+      calculateStrength(pw);
+    }
+
+    function renderEmptyState(placeholderText = "No password generated") {
+      passwordOutput.textContent = placeholderText;
+      passwordOutput.classList.add("empty");
+
+      btnCopy.disabled = true;
+      btnClear.disabled = true;
+      clearInlineBtn.disabled = true;
+      copyInlineBtn.disabled = true;
+
+      resetStrengthMeter();
+    }
+
+    // -------------------------------------------------------------
+    // Strength Calculation & Solid Bar Display
+    // -------------------------------------------------------------
+    function calculateStrength(pw) {
+      if (!pw) {
+        resetStrengthMeter();
+        return;
+      }
+
+      let poolSize = 0;
+      if (/[a-z]/.test(pw)) poolSize += 26;
+      if (/[A-Z]/.test(pw)) poolSize += 26;
+      if (/\d/.test(pw)) poolSize += 10;
+      if (/[^a-zA-Z0-9]/.test(pw)) poolSize += CHAR_SETS.sym.length;
+
+      const uniqueCount = new Set(pw).size;
+      const entropy = Math.round(pw.length * Math.log2(Math.max(poolSize, 2)) * ((uniqueCount / pw.length) ** 0.5));
+
+      segments.forEach((seg) => {
+        seg.className = "segment";
+      });
+
+      let ratingText = "Weak";
+      let ratingColor = "var(--color-danger)";
+      let crackTime = "A few seconds";
+      let activeSegments = 1;
+      let fillClass = "fill-weak";
+
+      if (entropy >= 75) {
+        ratingText = "Very Strong";
+        ratingColor = "var(--color-success)";
+        crackTime = "Millions of years";
+        activeSegments = 4;
+        fillClass = "fill-strong";
+      } else if (entropy >= 55) {
+        ratingText = "Strong";
+        ratingColor = "var(--color-success)";
+        crackTime = "~3,000 years";
+        activeSegments = 4;
+        fillClass = "fill-strong";
+      } else if (entropy >= 40) {
+        ratingText = "Good";
+        ratingColor = "var(--color-primary)";
+        crackTime = "~5 years";
+        activeSegments = 3;
+        fillClass = "fill-good";
+      } else if (entropy >= 28) {
+        ratingText = "Fair";
+        ratingColor = "var(--color-warning)";
+        crackTime = "~3 hours";
+        activeSegments = 2;
+        fillClass = "fill-fair";
+      } else {
+        ratingText = "Weak";
+        ratingColor = "var(--color-danger)";
+        crackTime = "A few seconds";
+        activeSegments = 1;
+        fillClass = "fill-weak";
+      }
+
+      for (let i = 0; i < activeSegments; i++) {
+        segments[i].classList.add(fillClass);
+      }
+
+      strengthStatus.textContent = ratingText;
+      strengthStatus.style.color = ratingColor;
+      entropyCaption.textContent = entropy + " bits entropy • ~" + crackTime + " to crack";
+    }
+
+    function resetStrengthMeter() {
+      segments.forEach((seg) => {
+        seg.className = "segment";
+      });
+      strengthStatus.textContent = "None";
+      strengthStatus.style.color = "var(--text-muted)";
+      entropyCaption.textContent = "0 bits entropy • No active password";
+    }
+
+    // -------------------------------------------------------------
+    // Copy to Clipboard
+    // -------------------------------------------------------------
+    async function copyPassword() {
+      if (!currentPassword) {
+        showToast("No password to copy", "warn");
+        return;
+      }
+
+      let copied = false;
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(currentPassword);
+          copied = true;
+        } catch (_) {
+          copied = false;
+        }
+      }
+
+      if (!copied) {
+        const textarea = document.createElement("textarea");
+        textarea.value = currentPassword;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        try {
+          textarea.select();
+          copied = document.execCommand("copy");
+        } catch (_) {
+          copied = false;
+        }
+        document.body.removeChild(textarea);
+      }
+
+      if (copied) {
+        btnCopy.classList.add("copied");
+        copyBtnText.textContent = "Copied!";
+        showToast("Password copied to clipboard!", "success");
+        setTimeout(() => {
+          btnCopy.classList.remove("copied");
+          copyBtnText.textContent = "Copy";
+        }, 1500);
+      } else {
+        showToast("Failed to copy password", "danger");
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Toast Notification
+    // -------------------------------------------------------------
+    let toastTimeout;
+    function showToast(message, type = "normal") {
+      toastMsg.textContent = message;
+      toastEl.className = "toast";
+
+      if (type === "success") {
+        toastEl.classList.add("success");
+        toastIcon.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+      } else if (type === "warn") {
+        toastEl.classList.add("warn");
+        toastIcon.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+      } else if (type === "danger") {
+        toastEl.classList.add("danger");
+        toastIcon.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
+      } else {
+        toastIcon.innerHTML = "";
+      }
+
+      toastEl.classList.add("show");
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toastEl.classList.remove("show");
+      }, 2200);
+    }
+
+    // -------------------------------------------------------------
+    // Sync Length Controls (Clamped to 4 - 16)
+    // -------------------------------------------------------------
+    function updateLength(newVal, triggerGen = true) {
+      let val = parseInt(newVal, 10);
+      if (isNaN(val)) val = 16;
+      val = Math.max(4, Math.min(16, val));
+
+      lengthSlider.value = val;
+      lengthInput.value = val;
+
+      presetChips.forEach((chip) => {
+        const chipVal = parseInt(chip.getAttribute("data-len"), 10);
+        chip.classList.toggle("active", chipVal === val);
+      });
+
+      if (triggerGen && currentPassword) {
+        generatePassword();
+      }
+    }
+
+    lengthSlider.addEventListener("input", (e) => {
+      updateLength(e.target.value, true);
+    });
+
+    lengthInput.addEventListener("change", (e) => {
+      updateLength(e.target.value, true);
+    });
+
+    presetChips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const targetLen = chip.getAttribute("data-len");
+        updateLength(targetLen, true);
+      });
+    });
+
+    // -------------------------------------------------------------
+    // Checkbox State Sync
+    // -------------------------------------------------------------
+    function syncCheckboxStyles() {
+      labelUpper.classList.toggle("checked", chkUpper.checked);
+      labelLower.classList.toggle("checked", chkLower.checked);
+      labelNum.classList.toggle("checked", chkNum.checked);
+      labelSym.classList.toggle("checked", chkSym.checked);
+    }
+
+    [chkUpper, chkLower, chkNum, chkSym].forEach((box) => {
+      box.addEventListener("change", () => {
+        syncCheckboxStyles();
+        if (currentPassword) {
+          generatePassword();
+        }
+      });
+    });
+
+    // -------------------------------------------------------------
+    // Event Listeners
+    // -------------------------------------------------------------
+    btnGenerate.addEventListener("click", generatePassword);
+    btnCopy.addEventListener("click", copyPassword);
+    btnClear.addEventListener("click", clearPassword);
+
+    clearInlineBtn.addEventListener("click", clearPassword);
+    regenInlineBtn.addEventListener("click", generatePassword);
+    copyInlineBtn.addEventListener("click", copyPassword);
+
+    // Escape shortcut to clear
+    document.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "INPUT" && e.target.type !== "checkbox" && e.target.type !== "range") {
+        return;
+      }
+      if (e.code === "Escape") {
+        clearPassword();
+      }
+    });
+
+    // -------------------------------------------------------------
+    // Dark / Light Theme Toggle
+    // -------------------------------------------------------------
+    let isDark = false;
+    const themeIcon = $("themeIcon");
+
+    function setTheme(dark) {
+      isDark = dark;
+      if (isDark) {
+        document.documentElement.setAttribute("data-theme", "dark");
+        themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+      } else {
+        document.documentElement.removeAttribute("data-theme");
+        themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+      }
+    }
+
+    themeToggle.addEventListener("click", () => {
+      setTheme(!isDark);
+      showToast(isDark ? "Dark theme enabled" : "Light theme enabled");
+    });
+
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme(true);
+    }
+
+    // -------------------------------------------------------------
+    // Initialization
+    // -------------------------------------------------------------
+    syncCheckboxStyles();
+    generatePassword();
+  })();
+  </script>
+</body>
+</html>
